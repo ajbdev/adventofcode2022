@@ -3,19 +3,23 @@ use std::io::{self, prelude::*, BufReader};
 fn main() -> io::Result<()> {
     let file = File::open("./inputs.txt")?;
     let reader = BufReader::new(file);
+    let mut largest: i32 = 0;
+    let mut current: i32 = 0;
 
     for line in reader.lines() {
-        let mut current: i32 = 0;
-        let mut largest: i32 = 0;
+        let line = line?;
 
-        if line?.trim().is_empty() {
-            
+        if line.trim().is_empty() {
+            if current > largest {
+                largest = current;
+            }
+            current = 0;
         } else {
-            let cals: i32 = line?.parse().unwrap();
-            current += cals;
-            
+            let calories: i32 = line.parse().unwrap();
+            current += calories;
         }
     }
+    println!("{}", largest);
 
     Ok(())
 }
